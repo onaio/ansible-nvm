@@ -1,0 +1,46 @@
+---
+- name: check nvm shell script
+  stat:
+    path: "{{ nvm_install_path }}/nvm.sh"
+  register: nvm_sh
+
+- name: check npm version
+  stat:
+    path: "{{ nvm_npm_path }}"
+  register: npm_sh
+
+- block:
+  - file:
+      path: "{{ nvm_home }}/.bashrc"
+      state: touch
+      mode: 0644
+      owner: "{{ nvm_user }}"
+      group: "{{ nvm_group }}"
+
+  - name: download nvm
+    get_url:
+      url: https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh
+      dest: /tmp/install.sh
+      mode: 0777
+
+  - name: change owner of nvm install file
+    file:
+      path: /tmp/install.sh
+      owner: "{{ nvm_user }}"
+      group: "{{ nvm_group }}"
+
+  - name: install nvm
+    shell: /tmp/install.sh
+    args:
+      executable: /bin/bash
+    environment:
+      HOME: "{{ nvm_home }}"
+
+  - name: install node version and set it as default
+    shell: ". {{ nvm_home }}/.nvm/nvm.sh && nvm install {{ nvm_node_version }} && nvm use {{ nvm_node_version }}"
+    args:
+      executable: /bin/bash
+    environment:
+      HOME: "{{ nvm_home }}"
+
+  when: nvm_sh.stat.exists == False or npm_sh.stat.exists == False

@@ -1,0 +1,8 @@
+---
+nvm_user: "ubuntu"
+nvm_home: "/home/{{ nvm_user }}"
+nvm_group: "ubuntu"
+nvm_install_path: "{{ nvm_home }}/.nvm"
+nvm_node_version: "v6.0.0"
+nvm_node_dir: "{{ nvm_install_path }}/versions/node/{{ nvm_node_version }}"
+nvm_npm_path: "{{ nvm_node_dir }}/bin/npm"
