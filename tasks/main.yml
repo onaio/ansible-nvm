@@ -19,7 +19,7 @@
 
   - name: download nvm
     get_url:
-      url: https://raw.githubusercontent.com/creationix/nvm/v0.34.1/install.sh
+      url: "https://raw.githubusercontent.com/creationix/nvm/{{ nvm_version }}/install.sh"
       dest: /tmp/install.sh
       mode: 0777
 
