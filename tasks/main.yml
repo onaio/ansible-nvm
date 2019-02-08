@@ -19,7 +19,7 @@
 
   - name: download nvm
     get_url:
-      url: https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh
+      url: "https://raw.githubusercontent.com/creationix/nvm/{{ nvm_version }}/install.sh"
       dest: /tmp/install.sh
       mode: 0777
 
@@ -31,6 +31,8 @@
 
   - name: install nvm
     shell: /tmp/install.sh
+    become: yes
+    become_user: "{{ nvm_user }}"
     args:
       executable: /bin/bash
     environment:
@@ -38,6 +40,8 @@
 
   - name: install node version and set it as default
     shell: ". {{ nvm_home }}/.nvm/nvm.sh && nvm install {{ nvm_node_version }} && nvm use {{ nvm_node_version }}"
+    become: yes
+    become_user: "{{ nvm_user }}"
     args:
       executable: /bin/bash
     environment:
