@@ -30,11 +30,9 @@
       group: "{{ nvm_group }}"
 
   - name: install nvm
-    shell: /tmp/install.sh
+    shell: cat /tmp/install.sh | /bin/bash
     become: yes
     become_user: "{{ nvm_user }}"
-    args:
-      executable: /bin/bash
     environment:
       HOME: "{{ nvm_home }}"
 
