@@ -16,21 +16,15 @@
       mode: 0644
       owner: "{{ nvm_user }}"
       group: "{{ nvm_group }}"
-
-  - name: download nvm
-    get_url:
-      url: "https://raw.githubusercontent.com/creationix/nvm/{{ nvm_version }}/install.sh"
-      dest: /tmp/install.sh
-      mode: 0777
-
-  - name: change owner of nvm install file
-    file:
-      path: /tmp/install.sh
-      owner: "{{ nvm_user }}"
-      group: "{{ nvm_group }}"
+    
+  - name: install apt prerequisites
+    apt:
+      name: curl
+      update_cache: true
+      state: present
 
   - name: install nvm
-    shell: cat /tmp/install.sh | /bin/bash
+    shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/{{ nvm_version }}/install.sh | /bin/bash
     become: yes
     become_user: "{{ nvm_user }}"
     environment:
