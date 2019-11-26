@@ -24,7 +24,7 @@
       state: present
 
   - name: install nvm
-    shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/{{ nvm_version }}/install.sh | /bin/bash
+    shell: "curl -o- https://raw.githubusercontent.com/creationix/nvm/{{ nvm_version }}/install.sh | /bin/bash"
     become: yes
     become_user: "{{ nvm_user }}"
     environment:
