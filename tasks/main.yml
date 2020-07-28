@@ -20,17 +20,17 @@
   - name: download nvm
     get_url:
       url: "https://raw.githubusercontent.com/creationix/nvm/{{ nvm_version }}/install.sh"
-      dest: /tmp/install.sh
+      dest: "{{ nvm_download_path }}"
       mode: 0777
 
   - name: change owner of nvm install file
     file:
-      path: /tmp/install.sh
+      path: "{{ nvm_download_path }}"
       owner: "{{ nvm_user }}"
       group: "{{ nvm_group }}"
 
   - name: install nvm
-    shell: /tmp/install.sh
+    shell: "{{ nvm_download_path }}"
     become: yes
     become_user: "{{ nvm_user }}"
     args:
